@@ -168,9 +168,11 @@
                 </div>
                 <div class="col-lg-6">
                     <h4 class="mb-3">{{ stack.composeFileName }}</h4>
-
                     <!-- YAML editor -->
-                    <div class="shadow-box mb-3 editor-box" :class="{'edit-mode' : isEditMode}">
+                    <div class="shadow-box mb-3 editor-box" style="position: relative;" :class="{'edit-mode' : isEditMode}">
+                        <div class="expand-button" v-if="isEditMode" v-b-modal.yamlEditorModal style="position: absolute; right: 10px; z-index: 10;" >
+                        <font-awesome-icon  icon="expand" />
+                        </div>
                         <code-mirror
                             ref="editor"
                             v-model="stack.composeYAML"
@@ -187,6 +189,25 @@
                     <div v-if="isEditMode" class="mb-3">
                         {{ yamlError }}
                     </div>
+                    <b-modal scrollable id="yamlEditorModal" title="YAML Editor" size="fullscreen" hide-footer>
+                        <div class="shadow-box mb-3 editor-box" :class="{'edit-mode' : isEditMode}">
+                            <code-mirror
+                                ref="editor"
+                                v-model="stack.composeYAML"
+                                :extensions="extensions"
+                                minimal
+                                wrap="true"
+                                dark="true"
+                                tab="true"
+                                :disabled="!isEditMode"
+                                :hasFocus="editorFocus"
+                                @change="yamlCodeChange"
+                            />
+                        </div>
+                        <div v-if="isEditMode" class="mb-3">
+                            {{ yamlError }}
+                        </div>
+                    </b-modal>
 
                     <!-- ENV editor -->
                     <div v-if="isEditMode">
@@ -840,5 +861,9 @@ export default {
 .agent-name {
     font-size: 13px;
     color: $dark-font-color3;
+}
+
+.expand-button:hover {
+    color: white
 }
 </style>
