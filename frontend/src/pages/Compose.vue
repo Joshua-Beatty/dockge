@@ -169,9 +169,9 @@
                 <div class="col-lg-6">
                     <h4 class="mb-3">{{ stack.composeFileName }}</h4>
                     <!-- YAML editor -->
-                    <div class="shadow-box mb-3 editor-box" style="position: relative; display: flex" :class="{'edit-mode' : isEditMode}">
+                    <div class="shadow-box mb-3 editor-box" style="position: relative;" :class="{'edit-mode' : isEditMode}">
                         <div class="expand-button" v-if="isEditMode" v-b-modal.yamlEditorModal style="position: absolute; right: 10px; top: 10px; z-index: 10;" >
-                        <font-awesome-icon  icon="expand" />
+                        <font-awesome-icon  icon="expand" style="width:20px; height: 20px;"/>
                         </div>
                         <code-mirror
                             ref="editor"
