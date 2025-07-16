@@ -186,9 +186,9 @@
                             @change="yamlCodeChange"
                         />
                     </div>
-                    <div v-if="isEditMode" class="mb-3">
+                    <pre v-if="isEditMode" class="mb-3">
                         {{ yamlError }}
-                    </div>
+                    </pre>
                     <b-modal scrollable id="yamlEditorModal" title="YAML Editor" size="fullscreen" hide-footer>
                         <div class="shadow-box mb-3 editor-box" :class="{'edit-mode' : isEditMode}">
                             <code-mirror
@@ -204,9 +204,9 @@
                                 @change="yamlCodeChange"
                             />
                         </div>
-                        <div v-if="isEditMode" class="mb-3">
+                        <pre v-if="isEditMode" class="mb-3">
                             {{ yamlError }}
-                        </div>
+                        </pre>
                     </b-modal>
 
                     <!-- ENV editor -->
