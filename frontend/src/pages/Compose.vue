@@ -479,7 +479,6 @@ export default {
                         copyYAMLComments(doc, this.yamlDoc);
                     }
 
-                    this.stack.composeYAML = doc.toString({blockQuote:"literal"});
                     this.yamlDoc = doc;
                 }
             },
