@@ -63,7 +63,7 @@
                     <label class="form-label">
                         {{ $tc("port", 2) }}
                     </label>
-                    <ArrayInput name="ports" :display-name="$t('port')" placeholder="HOST:CONTAINER" />
+                    <ArrayInput :display-name="$t('port')" placeholder="HOST:CONTAINER" :path="['services', name, 'ports']" />
                 </div>
 
                 <!-- Volumes -->
@@ -71,7 +71,7 @@
                     <label class="form-label">
                         {{ $tc("volume", 2) }}
                     </label>
-                    <ArrayInput name="volumes" :display-name="$t('volume')" placeholder="HOST:CONTAINER" />
+                    <ArrayInput :display-name="$t('volumes')" placeholder="HOST:CONTAINER" :path="['services', name, 'volumes']" />
                 </div>
 
                 <!-- Restart Policy -->
@@ -92,7 +92,7 @@
                     <label class="form-label">
                         {{ $tc("environmentVariable", 2) }}
                     </label>
-                    <ArrayInput name="environment" :display-name="$t('environmentVariable')" placeholder="KEY=VALUE" />
+                    <ArrayInput :display-name="$t('environmentVariable')" placeholder="KEY=VALUE" :path="['services', name, 'environment']" />
                 </div>
 
                 <!-- Container Name -->
@@ -127,7 +127,7 @@
                     <label class="form-label">
                         {{ $t("dependsOn") }}
                     </label>
-                    <ArrayInput name="depends_on" :display-name="$t('dependsOn')" :placeholder="$t(`containerName`)" />
+                    <ArrayInput :display-name="$t('dependsOn')" :placeholder="$t(`containerName`)" :path="['services', name, 'depends_on']" />
                 </div>
             </div>
         </transition>

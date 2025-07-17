@@ -143,7 +143,7 @@
                                 <label class="form-label">
                                     {{ $tc("url", 2) }}
                                 </label>
-                                <ArrayInput name="urls" :display-name="$t('url')" placeholder="https://" object-type="x-dockge" />
+                                <ArrayInput :display-name="$t('url')" placeholder="https://" :path="['x-dockge', 'urls']" />
                             </div>
                         </div>
                     </div>
@@ -257,6 +257,7 @@ import {
 import { BModal } from "bootstrap-vue-next";
 import NetworkInput from "../components/NetworkInput.vue";
 import dotenv from "dotenv";
+import ArrayInput from "../components/ArrayInput.vue";
 
 const template = `
 services:
@@ -290,9 +291,9 @@ export default {
     beforeRouteLeave(to, from, next) {
         this.exitConfirm(next);
     },
-    yamlDoc: null,  // For keeping the yaml comments
     data() {
         return {
+            yamlDoc: null,
             editorFocus: false,
             jsonConfig: {},
             envsubstJSONConfig: {},
@@ -311,6 +312,11 @@ export default {
             showDeleteDialog: false,
             newContainerName: "",
             stopServiceStatusTimeout: false,
+        };
+    },
+    provide() {
+        return {
+        composeLayout: this
         };
     },
     computed: {
@@ -416,24 +422,12 @@ export default {
             },
             deep: true,
         },
-
-        jsonConfig: {
-            handler() {
-                if (!this.editorFocus) {
-                    console.debug("jsonConfig changed");
-
-                    let doc = new Document(this.jsonConfig);
-
-                    // Stick back the yaml comments
-                    if (this.yamlDoc) {
-                        copyYAMLComments(doc, this.yamlDoc);
-                    }
-
-                    this.stack.composeYAML = doc.toString();
-                    this.yamlDoc = doc;
-                }
+        yamlDoc: {
+            handler(){
+                console.log(`New YAML Doc`)
+                this.stack.composeYAML = this.yamlDoc.toString({lineWidth: 99999});
             },
-            deep: true,
+            deep: true
         },
 
         $route(to, from) {
@@ -705,10 +699,12 @@ export default {
         },
 
         yamlToJSON(yaml) {
+            console.log(yaml)
             let doc = parseDocument(yaml);
             if (doc.errors.length > 0) {
                 throw doc.errors[0];
             }
+            console.log(";", doc.toString({lineWidth: 0}))
 
             const config = doc.toJS() ?? {};
 
@@ -753,6 +749,10 @@ export default {
                     }, 3000);
                 }
             }
+        },
+
+        yamlDocChanged(newDoc){
+            this.yamlDoc = newDoc
         },
 
         enableEditMode() {
